@@ -1,8 +1,5 @@
-package com.ktor.routing
+package ktor.routing
 
-import com.domain.models.Employee
-import com.domain.models.UpdateEmployee
-import com.domain.usecase.ProviderUseCase
 import io.ktor.http.*
 import io.ktor.serialization.*
 import io.ktor.server.request.*
