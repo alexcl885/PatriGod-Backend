@@ -1,5 +1,8 @@
 package ktor.routing
 
+import domain.usuario.models.UpdateUsuario
+import domain.usuario.models.Usuario
+import domain.usuario.usercase.ProviderUseCase
 import io.ktor.http.*
 import io.ktor.serialization.*
 import io.ktor.server.request.*
@@ -17,17 +20,22 @@ fun Route.authRouting(){
     //Para el login
     route("/auth"){
 
+        get("/hola") {
+            call.respondText("Hola querido internautra")
+        }
+
         post(){
             try{
-                val loginRequest = call.receive<UpdateEmployee>()
-                val login : Employee? = ProviderUseCase.login(loginRequest.dni, loginRequest.password)  //caso de uso del login
+                val loginRequest = call.receive<UpdateUsuario>()
+                val login : Usuario? = ProviderUseCase.login(loginRequest.dni, loginRequest.password)  //caso de uso del login
 
                 if (login != null) {
                     val token = login!!.token
-                    call.respondText(token!!)
+                    call.respondText("Token: " +token!!)
                 }
                 else
-                    call.respond(HttpStatusCode.Unauthorized, "Usuario incorrecto")
+                    //call.respond(HttpStatusCode.Unauthorized, "Usuario incorrecto")
+                    call.respond(login.toString())
             }catch (e: Exception){
                 call.respond(HttpStatusCode.BadRequest, "Formato de solicitud incorrecto")
                 return@post
@@ -40,7 +48,7 @@ fun Route.authRouting(){
 
         post(){
             try{
-                val user = call.receive<UpdateEmployee>()
+                val user = call.receive<UpdateUsuario>()
                 val register = ProviderUseCase.register(user)
 
                 if (register != null)

@@ -5,13 +5,10 @@ import io.ktor.server.application.*
 import io.ktor.server.http.content.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import ktor.routing.authRouting
 
 fun Application.configureRouting() {
     routing {
-        get("/") {
-            call.respondText("Hello World!")
-        }
-
         /**
          * Primero realizare las rutas del usuario
          * ya que lo voy a realizar por partes para
