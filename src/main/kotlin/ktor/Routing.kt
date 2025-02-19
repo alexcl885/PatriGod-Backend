@@ -6,6 +6,7 @@ import io.ktor.server.http.content.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import ktor.routing.authRouting
+import ktor.routing.monumentosRouting
 
 fun Application.configureRouting() {
     routing {
@@ -15,7 +16,7 @@ fun Application.configureRouting() {
          * poder hacerlo poco a poco
          * */
         authRouting()
-        //monumentosRouting()
+        monumentosRouting()
         // Static plugin. Try to access `/static/index.html`
         staticResources("/static", "static")
     }
