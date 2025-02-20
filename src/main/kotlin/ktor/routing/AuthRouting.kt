@@ -5,9 +5,11 @@ import domain.usuario.models.Usuario
 import domain.usuario.usercase.ProviderUseCase
 import io.ktor.http.*
 import io.ktor.serialization.*
+import io.ktor.server.auth.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import ktor.validateToken
 
 /*
 Contexto para las rutas de authenticación.
@@ -19,11 +21,6 @@ fun Route.authRouting(){
 
     //Para el login
     route("/auth"){
-
-        get("/hola") {
-            call.respondText("Hola querido internautra")
-        }
-
         post(){
             try{
                 val loginRequest = call.receive<UpdateUsuario>()
@@ -64,6 +61,34 @@ fun Route.authRouting(){
 
         } //fin post
 
+    }
+
+    route("/usuario"){
+        authenticate("jwt-auth"){
+            get("{dni}"){
+                val token = call.request.headers["Authorization"]?.removePrefix("Bearer ") //token el header
+                val validate = call.validateToken(token!!)
+                if (!validate) {
+                    call.respond(HttpStatusCode.Unauthorized, "Token inválido")
+                    return@get
+                }
+
+
+
+                val dni = call.parameters["dni"]
+                if (dni == null){
+                    call.respond(HttpStatusCode.BadRequest, "Debes pasar el dni a buscar")
+                    return@get
+                }
+
+                val employee = ProviderUseCase.getUsuarioByDni(dni)
+                if (employee ==null){
+                    call.respond(HttpStatusCode.NotFound,"Empleado no encontrado")
+                    return@get
+                }
+                call.respond(employee)
+            }
+        }
     }
 
 }

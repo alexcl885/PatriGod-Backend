@@ -12,7 +12,7 @@ object ProviderUseCase {
     val logger: Logger = LoggerFactory.getLogger("UsuarioUseCaseLogger")
 
     private val getAllUsearioUseCase = GetAllUsuariosUseCase(repository)
-    private val getUsuarioByIdUseCase = GetUsuaioByIdUseCase(repository)
+    private val getUsuarioByDniUseCase = GetUsuaioByDniUseCase(repository)
     private val loginUseCase = LoginUseCase(repository)
     private val registerUseCase = RegisterUseCase(repository)
     private val updateUsuarioUseCase = UpdateUsuarioUseCase(repository)
@@ -26,8 +26,8 @@ object ProviderUseCase {
             logger.warn("El dni está vacío. No podemos buscar un empleado")
             return null
         }
-        getUsuarioByIdUseCase.dni = dni
-        val emp = getUsuarioByIdUseCase()
+        getUsuarioByDniUseCase.dni = dni
+        val emp = getUsuarioByDniUseCase()
         return if (emp == null) {
             logger.warn("No se ha encontrado un empleado con ese $dni.")
             null
@@ -50,6 +50,8 @@ object ProviderUseCase {
         getUsuarioByEmailUseCase.filter = email
         return getUsuarioByEmailUseCase()
     }
+
+
 
     suspend fun deleteEmployee(dni : String) : Boolean{
         deleteEmployeUseCase.dni = dni
