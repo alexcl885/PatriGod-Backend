@@ -13,12 +13,12 @@ CREATE TABLE Usuario (
 CREATE TABLE IF NOT EXISTS Monumento (
     id INT AUTO_INCREMENT PRIMARY KEY,
     idMonu VARCHAR(20) UNIQUE NOT NULL,
-    nombre VARCHAR(20) NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
     ciudad VARCHAR(40) NOT NULL,
     fecha VARCHAR(40) NOT NULL,
     descripcion VARCHAR(40) NOT NULL,
-    imagen VARCHAR(40) NULL,
-    descripcionPlus VARCHAR(40) NOT NULL
+    imagen VARCHAR(10000) NULL,
+    descripcionPlus VARCHAR(10000) NOT NULL
 );
 
 INSERT INTO Monumento (idMonu, nombre, ciudad, fecha, descripcion, imagen, descripcionPlus) VALUES
