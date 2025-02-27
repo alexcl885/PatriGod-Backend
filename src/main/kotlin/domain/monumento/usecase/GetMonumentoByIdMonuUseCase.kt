@@ -4,6 +4,7 @@ import domain.monumento.models.Monumento
 import domain.monumento.repository.MonumentoInterface
 import domain.usuario.models.Usuario
 
+
 class GetMonumentoByIdMonuUseCase (val repository: MonumentoInterface) {
     var idMonu : String? = null
 
@@ -11,7 +12,9 @@ class GetMonumentoByIdMonuUseCase (val repository: MonumentoInterface) {
         return if (idMonu?.isNullOrBlank() == true)
             null
         else{
-            repository.getMonumentoByIdMonu(idMonu!!)
+            val mon = repository.getMonumentoByIdMonu(idMonu!!)
+
+            return mon
         }
     }
 }

@@ -6,7 +6,14 @@ import domain.monumento.repository.MonumentoInterface
 
 class PostMonumentoUseCase (val repository: MonumentoInterface) {
     var addMonumento: Monumento? = null
-    suspend operator fun invoke() : Boolean {
-        return repository.postMonumento(addMonumento!!)
+    suspend operator fun invoke() : Monumento? {
+        val monu = repository.getMonumentoByIdMonu(addMonumento!!.idMonu)
+        return if (monu!=null)    null
+        else{
+            //aquí tengo que tener la imagen creada y el name en employee!!.urlImage
+            val new = repository.postMonumento(addMonumento!!)
+            return new
+        }
+
     }
 }

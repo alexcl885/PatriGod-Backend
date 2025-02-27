@@ -10,9 +10,9 @@ interface MonumentoInterface {
 
     suspend fun getMonumentoByIdMonu (idMonu: String) : Monumento ?
 
-    suspend fun postMonumento(monumento: Monumento) : Boolean
+    suspend fun postMonumento(monumento: Monumento) : Monumento?
 
-    suspend fun updateMonumento(monumento: UpdateMonumento, idMonumento:String) : Boolean
+    suspend fun updateMonumento(monumento: UpdateMonumento, idMonumento:String) : Monumento?
 
     suspend fun deleteMonumento(idMonu : String) : Boolean
 }

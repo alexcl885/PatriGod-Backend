@@ -7,16 +7,16 @@ import domain.usuario.repository.UsuarioInterface
 import domain.usuario.security.JwtConfig
 
 class LoginUseCase(val repository : UsuarioInterface) {
-    suspend operator fun invoke(dni: String ?, pass:String ?): Usuario ? {
-        if (dni.isNullOrBlank() || pass.isNullOrBlank()) return null
+    suspend operator fun invoke(email: String ?, pass:String ?): Usuario ? {
+        if (email.isNullOrBlank() || pass.isNullOrBlank()) return null
 
         return try{
-            val em = repository.login(dni, pass)  ?: null
+            val em = repository.login(email, pass)  ?: null
 
             em!!.token = JwtConfig.generateToken(em.dni)
 
             val updateEmployee = em.toUpdateUsuario()
-            val res = repository.updateUsuario(updateEmployee, dni)
+            val res = repository.updateUsuario(updateEmployee, email)
             return if (res)
                 updateEmployee.toUsuario()
             else

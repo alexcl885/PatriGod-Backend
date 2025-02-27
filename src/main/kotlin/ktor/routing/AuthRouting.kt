@@ -28,7 +28,7 @@ fun Route.authRouting(){
 
                 if (login != null) {
                     val token = login!!.token
-                    call.respondText("Token: " +token!!)
+                    call.respond(mapOf("token" to token!!))
                 }
                 else
                     //call.respond(HttpStatusCode.Unauthorized, "Usuario incorrecto")
@@ -48,8 +48,10 @@ fun Route.authRouting(){
                 val user = call.receive<UpdateUsuario>()
                 val register = ProviderUseCase.register(user)
 
-                if (register != null)
-                    call.respond(HttpStatusCode.Created, "Se ha insertado correctamente con dni =  ${register.dni}")
+                if (register != null){
+                    val msg = "Se ha insertado correctamente con dni =  ${register.dni}"
+                    call.respond(mapOf("msg" to msg!!))
+                }
                 else
                     call.respond(HttpStatusCode.Conflict, "No se ha podido realizar el registro")
 

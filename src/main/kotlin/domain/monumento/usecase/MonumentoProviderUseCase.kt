@@ -19,10 +19,10 @@ object MonumentoProviderUseCase {
 
     suspend fun getAllMonumentos() = getAllMonumentosUseCase
 
-    suspend fun updateMonumento(updateMonumento: UpdateMonumento?, idMonu : String) : Boolean{
+    suspend fun updateMonumento(updateMonumento: UpdateMonumento?, idMonu : String) : Monumento?{
         if (updateMonumento == null){
             logger.warn("No existen datos del empleado a actualizar")
-            return false
+            return null
         }
 
         updateMonumentoUseCase.updateMonumento = updateMonumento
@@ -49,19 +49,17 @@ object MonumentoProviderUseCase {
         deleteMonumentoUseCase.idMonu = idMonu
         return deleteMonumentoUseCase()
     }
-    suspend fun postMonumento(monumento: Monumento?): Boolean{
+    suspend fun postMonumento(monumento: Monumento?): Monumento?{
         if (monumento == null){
-            logger.warn( "No existen datos del monumento a insertar")
-            return false
+            logger.warn( "No existen datos del empleado a insertar")
+            return null
         }
-        postMonumentoUseCase.addMonumento = monumento
-        val res = postMonumentoUseCase()
-        return if (!res){
-            logger.warn("No se ha insertado el monumento. Posiblemente ya exista")
-            false
-        }else{
-            true
-        }
+        postMonumentoUseCase.addMonumento = monumento  //seteamos
+        val new = postMonumentoUseCase()
+        if (new==null)
+            logger.warn("No se ha insertado el empleado. Posiblemente ya exista")
+
+        return new
     }
 
 }

@@ -7,6 +7,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import ktor.routing.authRouting
 import ktor.routing.monumentosRouting
+import java.io.File
 
 fun Application.configureRouting() {
     routing {
@@ -17,7 +18,11 @@ fun Application.configureRouting() {
          * */
         authRouting()
         monumentosRouting()
+
         // Static plugin. Try to access `/static/index.html`
         staticResources("/static", "static")
+        staticFiles("/images", File("upload/images"))  //para las imágenes
+        staticFiles("/files", File("upload/files")) //para otro tipo de ficheros.
+
     }
 }

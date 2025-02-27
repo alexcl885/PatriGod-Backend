@@ -91,13 +91,14 @@ fun Route.monumentosRouting(){
                 }
 
                 try{
-                    val monumento = call.receive<Monumento>()
-                    val res = MonumentoProviderUseCase.postMonumento(monumento)
-                    if (! res){
-                        call.respond(HttpStatusCode.Conflict, "El empleado no pudo insertarse. Puede que ya exista")
-                        return@post
+                    val monu = call.receive<Monumento>()  //Leemos el cuerpo de la solicitud como un objeto Monumento
+                    val new = MonumentoProviderUseCase.postMonumento(monu)
+                    if (new == null){
+                        call.respond(HttpStatusCode.Conflict, "El monumento no pudo insertarse. Puede que ya exista")
+                        return@post //aunque no es necesario, es buena práctica ponerlo para no olvidarlo, pero no hay más lógica.
                     }
-                    call.respond(HttpStatusCode.Created, "Se ha insertado correctamente con nombre =  ${monumento.nombre}")
+                    // call.respond(HttpStatusCode.Created, "Se ha insertado correctamente con dni =  ${new.dni}")
+                    call.respond(HttpStatusCode.Created, new)  //mando el nuevo monumento
                 } catch (e : IllegalStateException){
                     call.respond(HttpStatusCode.BadRequest, "Error en el formato de envío de datos o lectura del cuerpo.")
                 } catch (e: JsonConvertException){
@@ -116,16 +117,16 @@ fun Route.monumentosRouting(){
                 try{
                     val idMonu = call.parameters["idMonu"]
                     idMonu?.let{
-                        val updateEmployee = call.receive<UpdateMonumento>()
-                        val res = MonumentoProviderUseCase.updateMonumento(updateEmployee, idMonu)
-                        if (! res){
+                        val updateMonu = call.receive<UpdateMonumento>()
+                        val update = MonumentoProviderUseCase.updateMonumento(updateMonu ,  idMonu)
+                        if (update==null){
                             call.respond(HttpStatusCode.Conflict, "El monumento no pudo modificarse. Puede que no exista")
-                            return@patch
+                            return@patch //aunque no es necesario, es buena práctica ponerlo para no olvidarlo, pero no hay más lógica.
                         }
-                        call.respond(HttpStatusCode.Created, "Se ha actualizado correctamente con idMonumento =  ${idMonu}")
+                        call.respond(HttpStatusCode.Created, update)
                     }?: run{
-                        call.respond(HttpStatusCode.BadRequest,"Debes identificar el monumento")
-                        return@patch
+                        call.respond(HttpStatusCode.BadRequest,"Debes identificar el empleado")
+                        return@patch //aunque no es necesario, es buena práctica ponerlo para no olvidarlo, pero no hay más lógica.
                     }
                 } catch (e: IllegalStateException){
                     call.respond(HttpStatusCode.BadRequest,"Error en el formado de envío de los datos o lectura del cuerpo.")
@@ -133,7 +134,6 @@ fun Route.monumentosRouting(){
                     call.respond(HttpStatusCode.BadRequest,"Error en el formado de json")
                 }
             }
-
         }
     }
 

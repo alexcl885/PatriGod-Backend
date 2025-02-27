@@ -9,7 +9,7 @@ class MemoryUsuarioRepository: UsuarioInterface {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getUsuarioByEmail(email: String): List<Usuario> {
+    override suspend fun getUsuarioByEmail(email: String): Usuario? {
         TODO("Not yet implemented")
     }
 

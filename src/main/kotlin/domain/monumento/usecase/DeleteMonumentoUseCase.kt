@@ -9,7 +9,12 @@ class DeleteMonumentoUseCase (val repository: MonumentoInterface) {
         return if (idMonu == null) {
             false
         }else{
-            return repository.deleteMonumento(idMonu!!)
+            val monu = repository.getMonumentoByIdMonu(idMonu!!)
+            monu?.let { monu ->
+
+                return repository.deleteMonumento(monu.idMonu!!)
+            }
+            false
         }
 
     }

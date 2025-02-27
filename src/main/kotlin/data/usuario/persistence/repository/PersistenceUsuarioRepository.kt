@@ -19,11 +19,11 @@ class PersistenceUsuarioRepository : UsuarioInterface {
         }
     }
 
-    override suspend fun getUsuarioByEmail(email: String): List<Usuario> {
+    override suspend fun getUsuarioByEmail(email: String): Usuario? {
        return suspendTransaction {
             UsuarioDao.find{
                 UsuarioTable.email eq email.toString()
-            }.map { it.toUsuario() }
+            }.limit(1).map { it.toUsuario() }.firstOrNull()
        }
     }
 

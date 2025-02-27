@@ -46,10 +46,7 @@ object ProviderUseCase {
         return updateUsuarioUseCase()
     }
 
-    suspend fun getEmployeeByEmail(email: String) : List<Usuario> {
-        getUsuarioByEmailUseCase.filter = email
-        return getUsuarioByEmailUseCase()
-    }
+
 
 
 
@@ -58,7 +55,7 @@ object ProviderUseCase {
         return deleteEmployeUseCase()
     }
 
-    suspend fun login(dni: String?, pass: String?) : Usuario? = loginUseCase(dni, pass)
+    suspend fun login(email: String?, pass: String?) : Usuario? = loginUseCase(email, pass)
 
     suspend fun register(employee : UpdateUsuario): Usuario? {
 

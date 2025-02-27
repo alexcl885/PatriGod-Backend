@@ -10,6 +10,8 @@ import domain.monumento.mapper.toMonumento
 import domain.monumento.models.Monumento
 import domain.monumento.models.UpdateMonumento
 import domain.monumento.repository.MonumentoInterface
+import domain.monumento.usecase.MonumentoProviderUseCase
+import domain.monumento.usecase.MonumentoProviderUseCase.getMonumentoByIdMonu
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
 
@@ -31,28 +33,19 @@ class PersistenceMonumentoRepository : MonumentoInterface {
         }
     }
 
-    override suspend fun postMonumento(monumento: Monumento): Boolean {
-        val user = getMonumentoByIdMonu(monumento.idMonu)
-        return if (user == null){
-            suspendTransaction {
-                MonumentoDao.new {
-                    this.idMonu = monumento.idMonu
-                    this.nombre = monumento.nombre
-                    this.ciudad = monumento.ciudad
-                    this.fecha = monumento.fecha
-                    this.descripcion = monumento.descripcion
-                    this.imagen = monumento.imagen
-                    this.descripcionPlus = monumento.descripcionPlus
-                }
+    override suspend fun postMonumento(monumento: Monumento): Monumento? = suspendTransaction {
+            MonumentoDao.new {
+                this.idMonu = monumento.idMonu
+                this.nombre = monumento.nombre
+                this.ciudad = monumento.ciudad
+                this.fecha = monumento.fecha
+                this.descripcion = monumento.descripcion
+                this.imagen = monumento.imagen
+                this.descripcionPlus = monumento.descripcionPlus
             }
-            true
-        }
-        else{
-            false
-        }
-    }
+        }.toMonumento()
 
-    override suspend fun updateMonumento(monumento: UpdateMonumento, idMonumento: String): Boolean {
+    override suspend fun updateMonumento(monumento: UpdateMonumento, idMonumento: String): Monumento? {
         var num = 0
         try {
             suspendTransaction {
@@ -66,11 +59,13 @@ class PersistenceMonumentoRepository : MonumentoInterface {
                         monumento.descripcionPlus?.let { stm[descripcionPlus] = it }
                     }
             }
+            return MonumentoProviderUseCase.getMonumentoByIdMonu(idMonumento)  //devuelvo todos los datos de ese empleado. Esto puede cambiarse.
+            //   return updateEmployee.toEmployee()  //devolvemos el empleado modificado
+
         } catch (e: Exception) {
             e.printStackTrace()
-            false
+            return null //ha pasado algo y no se ha modificado.
         }
-        return num == 1
     }
 
     override suspend fun deleteMonumento(idMonu: String): Boolean = suspendTransaction  {
@@ -78,4 +73,8 @@ class PersistenceMonumentoRepository : MonumentoInterface {
             .deleteWhere { MonumentoTable.idMonu eq idMonu }
         num == 1
     }
+
+
+
+
 }

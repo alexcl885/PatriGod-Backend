@@ -1,18 +1,25 @@
 package domain.monumento.usecase
 
+import domain.monumento.models.Monumento
 import domain.monumento.models.UpdateMonumento
 import domain.monumento.repository.MonumentoInterface
-import domain.usuario.models.UpdateUsuario
 
 class UpdateMonumentoUseCase (val repository: MonumentoInterface) {
     var updateMonumento: UpdateMonumento? = null
     var idMonu: String? = null
 
-    suspend operator fun invoke() : Boolean {
+    suspend operator fun invoke() : Monumento? {
         return if (updateMonumento == null || idMonu == null) {
-            false
+            null
         }else{
-            return repository.updateMonumento(updateMonumento!!, idMonu!!)
+            try {
+                //fin de si hay nueva imagen a insertar.
+                val employee = repository.updateMonumento(updateMonumento!!, idMonu!!)
+                employee
+            }catch (e: Exception){
+                e.printStackTrace()
+                null
+            }
         }
 
     }

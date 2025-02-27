@@ -7,7 +7,7 @@ interface UsuarioInterface {
     suspend fun getAllUsuarios () : List <Usuario>
 
 
-    suspend fun getUsuarioByEmail ( email : String) : List<Usuario>
+    suspend fun getUsuarioByEmail ( email : String) : Usuario?
 
     //Debe ser nullable, por si no existe.
     suspend fun getUsuarioByDni (dni: String) : Usuario ?
@@ -18,7 +18,7 @@ interface UsuarioInterface {
 
     suspend fun deleteUsuario(dni : String) : Boolean
 
-    suspend fun login(dni: String, pass: String) : Usuario?  //más adelante, implementaré con token
+    suspend fun login(email: String, pass: String) : Usuario?  //más adelante, implementaré con token
 
     suspend fun register(usuario: UpdateUsuario) : Usuario? //Este será el que utilicemos para el registro
 
