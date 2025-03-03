@@ -1,11 +1,9 @@
 package com.example.ktor
-
-import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import ktor.routing.authRouting
+import ktor.routing.imagesRouting
 import ktor.routing.monumentosRouting
 import java.io.File
 
@@ -18,6 +16,7 @@ fun Application.configureRouting() {
          * */
         authRouting()
         monumentosRouting()
+        imagesRouting()
 
         // Static plugin. Try to access `/static/index.html`
         staticResources("/static", "static")
