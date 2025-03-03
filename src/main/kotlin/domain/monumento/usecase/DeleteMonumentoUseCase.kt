@@ -1,5 +1,6 @@
 package domain.monumento.usecase
 
+import domain.monumento.infraestructure.Utils
 import domain.monumento.repository.MonumentoInterface
 
 class DeleteMonumentoUseCase (val repository: MonumentoInterface) {
@@ -10,8 +11,11 @@ class DeleteMonumentoUseCase (val repository: MonumentoInterface) {
             false
         }else{
             val monu = repository.getMonumentoByIdMonu(idMonu!!)
-            monu?.let { monu ->
-
+            monu?.let { monumento ->
+                monumento.imagen?.let{ img->
+                    Utils.deleteImage(monumento.idMonu!!, img)
+                    Utils.deleteDirectory(monumento.idMonu!!)
+                }
                 return repository.deleteMonumento(monu.idMonu!!)
             }
             false
