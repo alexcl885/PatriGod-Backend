@@ -12,7 +12,8 @@ fun Monumento.toUpdateMonumento() : UpdateMonumento {
         fecha = fecha,
         descripcion=descripcion ,
         imagen = imagen ,
-        descripcionPlus =descripcionPlus
+        descripcionPlus =descripcionPlus,
+        idUsuario= idUsuario
     )
 }
 fun UpdateMonumento.toMonumento(): Monumento {
@@ -24,6 +25,7 @@ fun UpdateMonumento.toMonumento(): Monumento {
         descripcion = descripcion!!,
         imagen = imagen!!,
         descripcionPlus = descripcionPlus!!,
+        idUsuario= idUsuario!!
 
     )
 }
@@ -35,8 +37,8 @@ fun MonumentoDao.toMonumento() : Monumento {
         fecha = fecha,
         descripcion =descripcion ,
         imagen = imagen ?: "",
-        descripcionPlus =descripcionPlus
-
+        descripcionPlus =descripcionPlus,
+        idUsuario= idUsuario
         )
     return e
 }

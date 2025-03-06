@@ -46,7 +46,7 @@ fun Route.monumentosRouting(){
                 }
 
                 val idMonu = call.parameters["idMonu"]
-                ProviderUseCase.logger.warn("Queremos borrar el empleado con dni $idMonu")
+                ProviderUseCase.logger.warn("Queremos borrar el monumento con dni $idMonu")
                 idMonu?.let{
                     val res = MonumentoProviderUseCase.deleteMonumento(idMonu)
                     if (! res){

@@ -16,6 +16,7 @@ object MonumentoProviderUseCase {
     private val deleteMonumentoUseCase = DeleteMonumentoUseCase(repository)
     private val getAllMonumentosUseCase = GetAllMonumentosUseCase(repository)
     private val postMonumentoUseCase = PostMonumentoUseCase(repository)
+    private val getMonumentosByUsuario = GetMonumentosByUsuario(repository)
 
     suspend fun getAllMonumentos() = getAllMonumentosUseCase
 
@@ -62,4 +63,18 @@ object MonumentoProviderUseCase {
         return new
     }
 
+    suspend fun monumentosUser(idUsuario: String): List<Monumento> {
+        if (idUsuario.isNullOrBlank()){
+            logger.warn("El idUsuario está vacío. No podemos buscar el ususario")
+            return emptyList()
+        }
+        getMonumentosByUsuario.idUsuario = idUsuario
+        val monumentos = getMonumentosByUsuario()
+        return if (monumentos == null) {
+            logger.warn("No se ha encontrado monumentos con ese $idUsuario.")
+            emptyList()
+        }else{
+            monumentos
+        }
+    }
 }

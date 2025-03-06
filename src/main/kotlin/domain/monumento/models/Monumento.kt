@@ -10,5 +10,6 @@ data class Monumento(
     var fecha: String,
     var descripcion: String,
     var imagen: String,
-    var descripcionPlus: String
+    var descripcionPlus: String,
+    var idUsuario: String
 )

@@ -42,6 +42,7 @@ class PersistenceMonumentoRepository : MonumentoInterface {
                 this.descripcion = monumento.descripcion
                 this.imagen = monumento.imagen
                 this.descripcionPlus = monumento.descripcionPlus
+                this.idUsuario=monumento.idUsuario
             }
         }.toMonumento()
 
@@ -57,6 +58,7 @@ class PersistenceMonumentoRepository : MonumentoInterface {
                         monumento.descripcion?.let { stm[descripcion] = it }
                         monumento.imagen?.let { stm[imagen] = it }
                         monumento.descripcionPlus?.let { stm[descripcionPlus] = it }
+                        monumento.idUsuario?.let { stm[idUsuario] = it }
                     }
             }
             return MonumentoProviderUseCase.getMonumentoByIdMonu(idMonumento)  //devuelvo todos los datos de ese empleado. Esto puede cambiarse.
@@ -74,7 +76,13 @@ class PersistenceMonumentoRepository : MonumentoInterface {
         num == 1
     }
 
-
+    override suspend fun getMonumentosByUsuario(idUsuario: String): List<Monumento>? {
+        return suspendTransaction {
+            MonumentoDao.find{
+                MonumentoTable.idUsuario eq idUsuario
+            }.map { it.toMonumento() }
+        }
+    }
 
 
 }

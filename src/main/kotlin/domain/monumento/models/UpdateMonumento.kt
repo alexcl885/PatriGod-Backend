@@ -10,5 +10,6 @@ data class UpdateMonumento(
     var fecha : String? = null,
     var descripcion : String? = null,
     var imagen : String? = null,
-    var descripcionPlus : String? = null
+    var descripcionPlus : String? = null,
+    var idUsuario: String? = null
 )

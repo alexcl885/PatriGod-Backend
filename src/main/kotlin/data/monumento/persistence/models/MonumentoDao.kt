@@ -14,4 +14,5 @@ class MonumentoDao (id : EntityID<Int>) :  IntEntity(id) {
     var descripcion by MonumentoTable.descripcion
     var imagen by MonumentoTable.imagen
     var descripcionPlus by MonumentoTable.descripcionPlus
+    var idUsuario by MonumentoTable.idUsuario
 }

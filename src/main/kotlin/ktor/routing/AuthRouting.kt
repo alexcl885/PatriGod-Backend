@@ -20,26 +20,26 @@ login, registro.
 fun Route.authRouting(){
 
     //Para el login
-    route("/auth"){
-        post(){
-            try{
+    route("/auth") {
+        post {
+            try {
                 val loginRequest = call.receive<UpdateUsuario>()
-                val login : Usuario? = ProviderUseCase.login(loginRequest.dni, loginRequest.password)  //caso de uso del login
+                val login: Usuario? = ProviderUseCase.login(loginRequest.dni, loginRequest.password)  // Caso de uso del login
 
                 if (login != null) {
-                    val token = login!!.token
-                    call.respond(mapOf("token" to token!!))
-                }
-                else
-                    //call.respond(HttpStatusCode.Unauthorized, "Usuario incorrecto")
-                    call.respond(login.toString())
-            }catch (e: Exception){
-                call.respond(HttpStatusCode.BadRequest, "Formato de solicitud incorrecto")
-                return@post
-            }
-        } //fin post
+                    val dni: String = loginRequest.dni.toString()
+                    val token: String = login.token ?: ""
 
+                    call.respond(mapOf("dni" to dni, "token" to token))
+                } else {
+                    call.respond(HttpStatusCode.Unauthorized, "Usuario incorrecto")
+                }
+            } catch (e: Exception) {
+                call.respond(HttpStatusCode.BadRequest, "Formato de solicitud incorrecto")
+            }
+        }
     }
+
 
     route ("/register"){
 

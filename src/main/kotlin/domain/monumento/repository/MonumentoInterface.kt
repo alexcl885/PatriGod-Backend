@@ -15,4 +15,6 @@ interface MonumentoInterface {
     suspend fun updateMonumento(monumento: UpdateMonumento, idMonumento:String) : Monumento?
 
     suspend fun deleteMonumento(idMonu : String) : Boolean
+
+    suspend fun getMonumentosByUsuario(idUsuario: String): List<Monumento>?
 }
