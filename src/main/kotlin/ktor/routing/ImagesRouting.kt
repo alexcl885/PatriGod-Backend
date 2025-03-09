@@ -10,7 +10,7 @@ import java.io.File
 import kotlin.text.get
 
 fun Route.imagesRouting(){
-    route("/images/{dni}/{image}") {
+    route("/images/{idMonu}/{image}") {
         authenticate("jwt-auth") {
 
             //todo probar código.
@@ -21,14 +21,14 @@ fun Route.imagesRouting(){
                 if (!validate)
                     return@get  //Ya se ha mandado el responde dentro de la validación
 
-                val dni = call.parameters["dni"] ?: return@get call.respond(HttpStatusCode.BadRequest, "Necesitamos el DNI")
+                val idMonu = call.parameters["idMonu"] ?: return@get call.respond(HttpStatusCode.BadRequest, "Necesitamos el DNI")
                 val nameImage = call.parameters["image"] ?: return@get call.respond(
                     HttpStatusCode.BadRequest,
                     "Necesitamos la imagen"
                 )
                 //ya tengo el dni y el nombre de la imagen. También he validado correctamente el token.
                 //Necesito comprobar si existe el fichero y en su caso, devolverlo.
-                val path = ApplicationContext.context.environment.config.property("ktor.path.images").getString() + "/$dni"
+                val path = ApplicationContext.context.environment.config.property("ktor.path.images").getString() + "/$idMonu"
                 val img = File(path, nameImage)  //Ya tengo la imagen
                 if (!img.exists()){
                     return@get call.respond(HttpStatusCode.BadRequest, "Imagen no encontrada")

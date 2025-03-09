@@ -7,6 +7,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.imageio.ImageIO
+import kotlin.math.log
 
 class Utils {
     companion object{
@@ -66,6 +67,7 @@ class Utils {
         fun deleteImage(dni: String, name: String):Boolean{
             try{
                 val path = "${ApplicationContext.context.environment.config.property("ktor.path.images").getString()}/$dni"
+                print(path)
                 val img = File(path, name)
                 return if (img.exists()){
                     img.delete()
